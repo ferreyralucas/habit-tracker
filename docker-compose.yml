@@ -1,0 +1,76 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:11.5-alpine
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - django
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:5.0.6-alpine
+    volumes:
+      - redis:/data
+
+  django:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+    command: sh -c "sleep 5 && python manage.py runserver 0.0.0.0:8000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - postgres
+      - redis
+      - celery
+    volumes:
+      - .:/app
+    networks:
+      - django
+    ports:
+      - "8000:8000"
+
+  celery:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+    stdin_open: true
+    tty: true
+    depends_on:
+      - postgres
+      - redis
+    command: sh -c "sleep 5 && celery -A config worker -l INFO"
+    environment:
+      - C_FORCE_ROOT=True
+    volumes:
+      - .:/app
+
+  flower:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
+    depends_on:
+      - postgres
+      - redis
+      - celery
+    command: sh -c "sleep 5 && flower -A config --debug --port=7555"
+    ports:
+      - "7555:7555"
+
+networks:
+  django:
+    driver: bridge
+volumes:
+  pgdata: {}
+  redis: {}

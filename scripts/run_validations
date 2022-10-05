@@ -1,0 +1,21 @@
+#!/bin/sh
+run_isort=`isort -rc -c apps`
+echo $run_isort
+
+isort_result=`echo $run_isort | grep -i error | wc -l`
+if [ $isort_result -gt 0 ]
+then
+  echo '\n FALLO VALIDACION ISORT \n'
+  exit 1
+fi
+
+run_flake8=`flake8 apps`
+echo $run_flake8
+
+flake8_result=`echo $run_flake8 | grep -v '^$' | wc -l`
+
+if [ $flake8_result -gt 0 ]
+then
+  echo '\n FALLO VALIDACION FLAKE8 \n'
+  exit 1
+fi

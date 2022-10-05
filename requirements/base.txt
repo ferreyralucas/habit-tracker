@@ -1,0 +1,30 @@
+# Django
+Django==4.1.1
+django-environ==0.4.5  # https://github.com/joke2k/django-environ
+django-filter==22.1
+django-cors-headers==3.13.0  # https://github.com/ottoyiu/django-cors-headers
+django-utils-six==2.0
+django-extensions==3.2.1
+
+# Django rest framework
+djangorestframework==3.14.0
+
+# Logging
+sentry-sdk==0.16.1
+
+# Celery
+celery==5.2.7 # https://github.com/celery/celery
+flower==1.2.0
+amqp==5.1.1
+vine==5.0.0
+
+# Redis
+django-redis==5.2.0
+redis==4.3.4
+
+# Services
+gunicorn==20.1.0  # https://github.com/benoitc/gunicorn
+psycopg2==2.9.3 --no-binary psycopg2  # https://github.com/psycopg/psycopg2
+
+# Storage
+boto3==1.24.81  # https://boto3.amazonaws.com/v1/documentation/api/latest/index.html
