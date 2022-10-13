@@ -8,6 +8,7 @@ pytest-xdist==2.5.0
 pytest-env==0.6.2
 httpretty==1.1.4  # https://github.com/gabrielfalcao/HTTPretty
 pretend==1.0.9  # https://github.com/alex/pretend
+fakeredis==1.4.5  # https://github.com/jamesls/fakeredis
 
 # Code quality
 # ------------------------------------------------------------------------------
