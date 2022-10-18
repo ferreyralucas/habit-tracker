@@ -9,6 +9,7 @@ services:
       - django
     ports:
       - "5432:5432"
+
   redis:
     image: redis:5.0.6-alpine
     volumes:
@@ -75,6 +76,7 @@ services:
 networks:
   django:
     driver: bridge
+
 volumes:
   pgdata: {}
   redis: {}
