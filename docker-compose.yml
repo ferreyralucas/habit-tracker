@@ -15,6 +15,7 @@ services:
       - redis:/data
     networks:
       - django
+
   django:
     env_file: .env
     build:
