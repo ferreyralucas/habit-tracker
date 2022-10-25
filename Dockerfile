@@ -13,9 +13,15 @@ ENV PIP_NO_CACHE_DIR=off \
 COPY requirements/*.txt /tmp/requirements/
 
 RUN set -x \
+    && apt-get update \
+    && yes | apt-get install libexpat1=2.2.6-2+deb10u4 \
     && buildDeps=" \
     libffi-dev \
     libpq-dev \
+    libexpat1-dev \
+    libpython3.7-dev \
+    libpython3-dev \
+    python3.7-dev \
     python3-dev \
     binutils \
     musl-dev \
@@ -52,8 +58,6 @@ COPY . .
 
 # add our user and group first to make sure their IDs get assigned consistently
 RUN groupadd -r deployer && useradd -r -m -g deployer deployer && chown -R deployer:deployer /app
-
-# USER deployer
 
 EXPOSE 8000
 
