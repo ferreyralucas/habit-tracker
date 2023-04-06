@@ -61,7 +61,8 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'rest_framework',
     'corsheaders',
-    'django_filters'
+    'django_filters',
+    'drf_yasg',
 ]
 
 LOCAL_APPS = [
@@ -189,35 +190,6 @@ CACHES = {
 }
 
 
-# # CELERY CONFIGS
-# ------------------------------------------------------------------------------
-CELERY_BROKER_URL = env.str('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = env.str('REDIS_URL')
-CELERY_MAX_CACHED_RESULTS = 1000
-CELERY_TASK_RESULT_EXPIRES = env.int('CELERY_TASK_RESULT_EXPIRES', 10000)
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
-
-default_exchange = Exchange("default", type="direct")
-DEFAULT_QUEUE = "default"
-
-CELERY_TASK_QUEUES = (
-    Queue(DEFAULT_QUEUE, default_exchange, routing_key=DEFAULT_QUEUE)
-)
-
-CELERY_ROUTES = {
-    # 'some.task.*': {
-    #     'queue': DEFAULT_QUEUE,
-    #     'routing_key': DEFAULT_QUEUE,
-    # }
-}
-
-CELERY_TASK_DEFAULT_QUEUE = DEFAULT_QUEUE
-CELERY_TASK_DEFAULT_EXCHANGE = DEFAULT_QUEUE
-CELERY_TASK_DEFAULT_ROUTING_KEY = DEFAULT_QUEUE
-
-
 # # SENTRY
 # ------------------------------------------------------------------------------
 SENTRY_DSN = env('SENTRY_DSN', default=None)
@@ -225,10 +197,9 @@ if SENTRY_DSN:
     import sentry_sdk
 
     from sentry_sdk.integrations.django import DjangoIntegration
-    from sentry_sdk.integrations.celery import CeleryIntegration
     sentry_sdk.init(
         dsn=SENTRY_DSN,
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[DjangoIntegration()],
         environment=ENVIRONMENT,
     )
 

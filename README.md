@@ -4,7 +4,6 @@
 - 🐳 Dockerized project.
 - 💎 Integrated with Django Rest Framework.
 - 🏮 Integrated with redis.
-- 🍳 Integrated with celery.
 - 📂 Integrated with postgres.
 - ☁️ Integrated with boto3 and the according configuration to upload the static files to AWS.
 - 🏥 Healthcheck configured.

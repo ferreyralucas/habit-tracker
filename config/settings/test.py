@@ -7,7 +7,6 @@ DATABASES = {"default": env.db("DATABASE_URL")}
 DEBUG = True
 TEST_RUNNER = "django.test.runner.DiscoverRunner"
 
-CELERY_ALWAYS_EAGER = True
 
 CACHES = {
     "default": {

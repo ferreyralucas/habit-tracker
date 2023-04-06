@@ -30,7 +30,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - celery
     volumes:
       - .:/app
     networks:
@@ -38,40 +37,6 @@ services:
     ports:
       - "8000:8000"
 
-  celery:
-    env_file: .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        ENVIRONMENT: ${ENVIRONMENT}
-    stdin_open: true
-    tty: true
-    depends_on:
-      - postgres
-      - redis
-    command: sh -c "sleep 5 && celery -A config worker -l INFO"
-    environment:
-      - C_FORCE_ROOT=True
-    volumes:
-      - .:/app
-    networks:
-      - django
-
-  flower:
-    env_file: .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        ENVIRONMENT: ${ENVIRONMENT}
-    depends_on:
-      - postgres
-      - redis
-      - celery
-    command: sh -c "sleep 5 && flower -A config --debug --port=7555"
-    ports:
-      - "7555:7555"
 
 networks:
   django:

@@ -1,44 +1,27 @@
-FROM python:3.10.7-slim-buster
+FROM python:3.11-slim-buster
 
 # Define ARGs
 ARG ENVIRONMENT=default
 
 # Python logs to STDOUT
 ENV PYTHONUNBUFFERED 1
-
-# Sane defaults for pip
-ENV PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
-
+WORKDIR /app
 COPY requirements/*.txt /tmp/requirements/
-
 RUN set -x \
-    && apt-get update \
-    && yes | apt-get install libexpat1=2.2.6-2+deb10u4 \
     && buildDeps=" \
     libffi-dev \
     libpq-dev \
-    libexpat1-dev \
-    libpython3.7-dev \
-    libpython3-dev \
-    python3.7-dev \
     python3-dev \
     binutils \
-    musl-dev \
-    openssh-client \
-    git \
     " \
     && runDeps=" \
     postgresql-client \
     gcc \
-    unrar \
     " \
-    && echo "deb http://deb.debian.org/debian buster main contrib non-free" > /etc/apt/sources.list \
     && apt-get update \
-    && apt-get install -y --no-install-recommends $buildDeps \
+    && apt-get install -y $buildDeps \
     && apt-get install -y --no-install-recommends $runDeps \
-    # Install Python dependencies
-    && pip install -r /tmp/requirements/base.txt \
+    && pip install -r /tmp/requirements/base.txt\
     && if [ $ENVIRONMENT = local ]; then \
     # Install python dev dependencies
     pip install -r /tmp/requirements/test.txt \
@@ -55,10 +38,5 @@ RUN set -x \
 # Work dir and copy code.
 WORKDIR /app
 COPY . .
-
-# add our user and group first to make sure their IDs get assigned consistently
-RUN groupadd -r deployer && useradd -r -m -g deployer deployer && chown -R deployer:deployer /app
-
-EXPOSE 8000
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
