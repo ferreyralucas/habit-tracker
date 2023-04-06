@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from enum import Enum
-from utils.models import TimeStampedModel
+from core.models import TimeStampedModel
 
 
 class TargetPeriodChoices(Enum):
@@ -34,6 +34,9 @@ class Habit(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        app_label = 'habits'
 
 
 class HabitRecord(TimeStampedModel):

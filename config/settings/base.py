@@ -4,7 +4,6 @@ import django
 from django.utils.encoding import force_str, smart_str
 
 import environ
-from kombu import Exchange, Queue
 
 """
 TEMPORAL FIX POR DJANGO > 4.0
@@ -66,7 +65,7 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'tax_payers'
+    'habits.apps.HabitsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -74,7 +73,6 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'easy_health_check.middleware.HealthCheckMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -215,13 +213,3 @@ if env("AWS_ACCESS_KEY_ID", default=""):
     AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
     AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
     AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
-
-
-# # MIDDLEWARE https://pypi.org/project/django-easy-health-check/
-# ------------------------------------------------------------------------------
-DJANGO_EASY_HEALTH_CHECK = {
-    "PATH": "/healthcheck/",
-    "RETURN_STATUS_CODE": 200,
-    "RETURN_BYTE_DATA": "",
-    "RETURN_HEADERS": None
-}

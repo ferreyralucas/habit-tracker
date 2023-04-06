@@ -22,5 +22,3 @@ factory-boy==2.11.1  # https://github.com/FactoryBoy/factory_boy
 django-extensions==2.1.5  # https://github.com/django-extensions/django-extensions
 django-coverage-plugin==1.8.0  # https://github.com/nedbat/django_coverage_plugin
 
-# Documentation
-drf-yasg==1.20.0 #https://drf-yasg.readthedocs.io/en/stable/readme.html

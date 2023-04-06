@@ -1,6 +1,6 @@
 import factory
 from django.contrib.auth.models import User
-from .models import Habit, HabitRecord
+from apps.habits.models import Habit, HabitRecord
 from faker import Faker
 
 faker = Faker()
